@@ -1,7 +1,9 @@
 # Trabajo práctico
 # Angry-Birds
 
-Hay que hacer un sistema autónomo que aprenda a jugar, básicamente. No sé si lo vieron todos andando, pero lo que está codeado tiene una lógica fija y mal que mal va pasando los niveles. A veces pifia, vuelve a intentar, pero bueh
+Hay que hacer un sistema autónomo que aprenda a jugar, básicamente.
+Lo que está codeado tiene una lógica fija y va pasando los niveles.
+A veces pifia, vuelve a intentar, pero no funciona como se espera.
 
 
 Nosotros tenemos que tirar esa lógica hardcodeada y hacer un sistema que tendría que partir de cosas muy básicas, tan simple como ponérsela a un cerdo, o a un bloque de madera, e ir evaluando resultados, iterando sobre un nivel hasta pasarlo. Repito, sólo tenemos que tocar la parte que decide a dónde tirar. Reconocimiento de objetos, cálculo de trayectoria, etc, granted.
