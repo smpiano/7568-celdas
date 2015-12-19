@@ -45,7 +45,7 @@ server-start: build
 server-stop:
 	test=$$(ps -ef | grep ABServer.jar | grep -v grep | cut -f3 -d\ ); if [ ! -z "$$test" ]; then kill -9 $$test; fi
 
-run: build browse-close browse-open prompt server-start client-start
+run: compile browse-close browse-open prompt server-start client-start
 
 client-start:
 	sleep 2
@@ -62,4 +62,4 @@ truco: unzip-libs save-appcache
 
 compile: build
 	cp -R src/ 'build/source/abV1.32/src/'
-	cd 'build/source/abV1.32/'; ant compile; ant jar; cd '../../../'
+	cd 'build/source/abV1.32/'; ant compile; error=`echo $$?`; [[ "error" -gt 0 ]] && exit $$error; ant jar; error=`echo $$?`; [[ "error" -gt 0 ]] && exit $$error; cd '../../../'
