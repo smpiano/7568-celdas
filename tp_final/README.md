@@ -1,6 +1,24 @@
 # Trabajo práctico
 # Angry-Birds
 
+## Herramientas para trabajar
+
+###Makefile
+
+1. `make build` Genera los directorios necesarios para poder trabajar, descomprime las librerías de *abV1.32* y de *Application Cache.zip*, para tener el workspace preparado para poder trabajar. También actualiza el Application Cache propio de Chrome por el nuestro para poder ver el juego activo.
+2. `make clean` Limpia la estructura de directorios y restablece los directorios de Applicatino Cache propios del Chrome para dejar tal y como estaba desde un principio.
+3. `make run` Corre el proceso de `build` en caso que sea necesario. Cierra todas las aplicaciones de Chrome para poder tener el nuevo *Application Cache* a utilizar y luego, levanta el servidor, abre una nueva ventana de Chrome e inicializa el cliente de juego. Deja todo listo como para que se pueda ver jugando al agente autónomo del Angry Bird.
+4. `make compile` Genera el código con nuestros cambios.
+
+
+**Importante:**
+En caso de tener otras librerías o directorios de instalación de GoogleChrome modificar los paths correspondientes en el makefile al inicio del archivo.
+
+
+
+
+## Resumen del trabajo práctico
+
 Hay que hacer un sistema autónomo que aprenda a jugar, básicamente.
 Lo que está codeado tiene una lógica fija y va pasando los niveles.
 A veces pifia, vuelve a intentar, pero no funciona como se espera.
