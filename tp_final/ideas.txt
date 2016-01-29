@@ -1,0 +1,34 @@
+Entradas propuestas:
+-Distancia en eje x entre chanchos (normalizada)
+-Cantidad de Chanchos antes
+-Paredes entre chanchos
+-Altura de chanchos
+-
+Salidas propuestas:
+-Disparo C1,C2,..,CN
+-
+-
+-
+######################################
+#			Modelo 1				 #
+######################################
+Entrada:
+-Distancia entre cada par de chanchos: dist(Ci,Cj) (ordenada de menor a mayor) (categorizar distancias) (limitar a cierta cantidad??)
+-Cantidad de chanchos inicial
+Salida:
+-Disparo a chancho Num. (1,2,3,...,N) (ordenados segun algun criterio)
+-Cantidad de chanchos final (Se podria considerar solo la diferencia con la inicial)
+
+Evaluacion de teorias:
+1)Cantidad de exitos
+2)Cantidad de chanchos eliminados
+
+Generalizacion de teorias:
+-Si la teoria T1=(E1,E2,...,En,D=1,C=3) tiene 30 exitos y la teoria T2=(E1,E2,...,En,D=1,C=2) tiene 15
+	=>   Se puede decir que la teoria T2 tiene 45
+
+(O tendria que ser al revez)????
+
+
+
+
