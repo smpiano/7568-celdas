@@ -36,6 +36,7 @@ public class ClientNaiveAgent implements Runnable {
 	private boolean firstShot;
 	private Point prevTarget;
 	private Random randomGenerator;
+	private Solver solver;
 	/**
 	 * Constructor using the default IP
 	 * */
@@ -121,9 +122,11 @@ public class ClientNaiveAgent implements Runnable {
 		ar.loadLevel(currentLevel);
 		//ar.loadLevel((byte)9);
 		GameState state;
-		while (true) {
-			
+		this.solver = new Solver();
+		
+		while (true) {	
 			state = solve();
+			
 			//If the level is solved , go to the next level
 			if (state == GameState.WON) {
 							
@@ -152,40 +155,36 @@ public class ClientNaiveAgent implements Runnable {
 			} else 
 				//If lost, then restart the level
 				if (state == GameState.LOST) {
-				failedCounter++;
-				if(failedCounter > 3)
-				{
-					failedCounter = 0;
-					currentLevel = (byte)getNextLevel(); 
-					ar.loadLevel(currentLevel);
+					failedCounter++;
+					if(failedCounter > 3) {
+						failedCounter = 0;
+						currentLevel = (byte)getNextLevel(); 
+						ar.loadLevel(currentLevel);
 					
 					//ar.loadLevel((byte)9);
-				}
-				else
-				{		
-					System.out.println("restart");
-					ar.restartLevel();
-				}
+					} else {		
+						System.out.println("restart");
+						ar.restartLevel();
+					}
 						
-			} else 
-				if (state == GameState.LEVEL_SELECTION) {
-				System.out.println("unexpected level selection page, go to the last current level : "
+				} else if (state == GameState.LEVEL_SELECTION) {
+					System.out.println("unexpected level selection page, go to the last current level : "
 								+ currentLevel);
-				ar.loadLevel(currentLevel);
-			} else if (state == GameState.MAIN_MENU) {
-				System.out
+					ar.loadLevel(currentLevel);
+				} else if (state == GameState.MAIN_MENU) {
+					System.out
 						.println("unexpected main menu page, reload the level : "
 								+ currentLevel);
-				ar.loadLevel(currentLevel);
-			} else if (state == GameState.EPISODE_MENU) {
-				System.out.println("unexpected episode menu page, reload the level: "
-								+ currentLevel);
-				ar.loadLevel(currentLevel);
+					ar.loadLevel(currentLevel);
+				} else if (state == GameState.EPISODE_MENU) {
+					System.out.println("unexpected episode menu page, reload the level: "
+									+ currentLevel);
+					ar.loadLevel(currentLevel);
+				}
+
 			}
 
 		}
-
-	}
 
 
 	  /** 
@@ -232,17 +231,17 @@ public class ClientNaiveAgent implements Runnable {
 			if (!pigs.isEmpty()) {						
 				Point releasePoint = null;
 	//-------------------------------------------------------------------------//
-				Solver solver = new Solver();
+				//Solver solver = new Solver();
 				
-				Sensor sensor = new Sensor(pigs,ar.getBirdTypeOnSling());
+				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling());
 				Estado estado_inicial = new Estado(sensor);
 				//Obtener Mejor teoria para el estado inicial
-				teoria = solver.getTeoria(estado_inicial);
+				Teoria teoria = solver.getTeoria(estado_inicial);
 				//Se aplican las acciones de esa teoria
 				ABObject pig = pigs.get(teoria.getAccion());
 				//Comenzar a apuntar con el chancho elegido
 				Point _tpt = pig.getCenter();
-
+	//------------------------------------------------------------------------------//
 					
 					// if the target is very close to before, randomly choose a
 					// point near it
@@ -340,8 +339,27 @@ public class ClientNaiveAgent implements Runnable {
 								}
 							}
 						//-------------------------------------------------------------------------//
-						//Comprobar estado final
-						
+							// capture Image
+							ar.fullyZoomOut();
+							screenshot = ar.doScreenShot();
+
+							// process image
+							vision = new Vision(screenshot);
+							pigs = vision.findPigsMBR();
+							sensor.setPigs(pigs);
+							//Comprobar estado final
+							if(teoria.getUsos() == 1){
+								if (teoria.getCantidadFinal() >= sensor.getCantidad()) {
+									teoria.setCantidadFinal(sensor.getCantidad());
+									teoria.setExitos(1);
+								}
+							//Si era una teoria vieja me fijo en el exito o no del tiro
+							}else {
+								if (teoria.getCantidadFinal() >= sensor.getCantidad()) {
+									teoria.setExitos(teoria.getExitos()+1);
+								}
+							}
+							teoria.setUsos(teoria.getUsos()+1);						
 						}
 						else
 							System.out.println("Scale is changed, can not execute the shot, will re-segement the image");
@@ -351,6 +369,7 @@ public class ClientNaiveAgent implements Runnable {
 				
 			}
 		}
+		//Si era una teoria Naive Calculo los chanchos que mato
 		return state;
 	}
 

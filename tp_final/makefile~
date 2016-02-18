@@ -3,7 +3,7 @@
 GAMEPLAY="lib/gameplay/abV1.32.zip"
 APPCACHE="lib/appcache/Application_Cache.zip"
 LOCALAPPCACHE_NEW="/home/pato/.config/google-chrome/Default/"
-LOCALAPPCACHE_OLD="/home/pato/.config/google-chrome/Default/Original"
+LOCALAPPCACHE_OLD="/home/pato/.config/google-chrome/Default/Cache\ Original"
 
 build: truco
 
