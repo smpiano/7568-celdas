@@ -25,6 +25,7 @@ public class Solver {
 		} else {
 			limite = estado_inicial.getCantidadInicial();
 		}
+		System.out.println("LIMITE :"+limite);
 		boolean chancho_dummie = true;
 		int random=0;
 		List<Chancho> chanchosList = estado_inicial.getChanchos();
@@ -35,7 +36,8 @@ public class Solver {
 				chancho_dummie = false;
 			}
 		}
-		teoria_inicial.setAction(chanchosList.get(random).getPos());
+		System.out.println("RANDOM :"+random);
+		teoria_inicial.setAccion(random);
 		this.agregarTeoria(teoria_inicial);
 	}
 	//Aca hay q hacer la magia de combinar teorias
@@ -46,10 +48,10 @@ public class Solver {
 			teoria = iTeoria.next();
 			if (teoria.esIgual(teoria_nueva)) {
 				System.out.println("Ya existia esa teoria");
-			} else {
-				this.teorias.add(teoria_nueva);
+				return;
 			}
 		}
+		this.teorias.add(teoria_nueva);
 	}
 	public Teoria getTeoria(Estado estado) {
 		//Generar teoria Naive para este estado
@@ -61,12 +63,14 @@ public class Solver {
 		Teoria teoria_elegida = null;
 		while (iTeoria.hasNext()) {
 			teoria = iTeoria.next();
+			System.out.println("TEORIA :  ACCION:"+ teoria.getAccion() + " EXITOS:"+teoria.getExitos());
 			if (teoria.getEstado().Igual(estado)) {
 				if (teoria.mejorQue(teoria_elegida)) {
 					teoria_elegida = teoria;
 				}
 			}
 		}
+		System.out.println("TEORIA ELEGIDA:"+teoria_elegida.getAccion());
 		return teoria_elegida;
 	}
 }
