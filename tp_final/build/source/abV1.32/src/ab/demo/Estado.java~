@@ -1,7 +1,6 @@
 package ab.demo;
 import ab.demo.Chancho;
 import ab.demo.Sensor;
-import ab.vision.ABType;
 import java.util.*;
 
 

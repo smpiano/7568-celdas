@@ -232,12 +232,12 @@ public class ClientNaiveAgent implements Runnable {
 				Point releasePoint = null;
 	//-------------------------------------------------------------------------//
 				//Solver solver = new Solver();
-				
 				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling());
 				Estado estado_inicial = new Estado(sensor);
 				//Obtener Mejor teoria para el estado inicial
 				Teoria teoria = solver.getTeoria(estado_inicial);
 				//Se aplican las acciones de esa teoria
+				System.out.println("ACCION :"+teoria.getAccion());
 				ABObject pig = pigs.get(teoria.getAccion());
 				//Comenzar a apuntar con el chancho elegido
 				Point _tpt = pig.getCenter();

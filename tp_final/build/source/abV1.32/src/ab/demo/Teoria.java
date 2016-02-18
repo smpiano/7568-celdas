@@ -17,20 +17,20 @@ public class Teoria {
 	public Teoria() {
 	}
 
-	public void setCantidadFinal(int cantidad_final) {
-		this.cantidad_final = cantidad_final;
+	public void setCantidadFinal(int newCantidad_final) {
+		this.cantidad_final = newCantidad_final;
 	}
 	
-	public void setExitos(int exitos)  {
-		this.exitos = exitos;
+	public void setExitos(int newExitos)  {
+		this.exitos = newExitos;
 	}
 
-	public void setUsos(int usos) {
-		this.usos = usos;
+	public void setUsos(int newUsos) {
+		this.usos = newUsos;
 	}
 
-	public void setAction(int actions) {
-		this.accion = accion;
+	public void setAccion(int newAction) {
+		this.accion = newAction;
 	}
 
 	public int getAccion() {
