@@ -39,7 +39,7 @@ public class Sensor{
 		while (iPigs.hasNext()) {
 			chancho = iPigs.next();
 			_tpt = chancho.getCenter();
-			chanchos.add(new Chancho(iterator,(_tpt.x - centro_x)*(_tpt.x - centro_x)));
+			chanchos.add(new Chancho(iterator,(this.abs(_tpt.x - centro_x))/5));
 			iterator++;
 		}
 		//Agrego chanchos falsos para llegar a la cantidad limite
@@ -48,6 +48,10 @@ public class Sensor{
 		}
 		//Ordenar por value
 		Collections.sort(chanchos);
+		//Sacar Chanchos que sobran
+		while(chanchos.size() > Estado.limite) {
+			chanchos.remove(chanchos.size()-1);
+		}
 		return chanchos;
 	}
 
@@ -56,5 +60,9 @@ public class Sensor{
 	}
 	public ABType getBird() {
 		return this.birdType;
+	}
+	
+	private int abs (int numero) {
+      return numero > 0 ? numero : -numero;
 	}
 }

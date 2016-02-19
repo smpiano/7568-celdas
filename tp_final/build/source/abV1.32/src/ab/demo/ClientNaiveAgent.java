@@ -357,9 +357,10 @@ public class ClientNaiveAgent implements Runnable {
 							}else {
 								if (teoria.getCantidadFinal() >= sensor.getCantidad()) {
 									teoria.setExitos(teoria.getExitos()+1);
-								}
+								}	
 							}
-							teoria.setUsos(teoria.getUsos()+1);						
+							teoria.setUsos(teoria.getUsos()+1);
+							solver.grabar();		
 						}
 						else
 							System.out.println("Scale is changed, can not execute the shot, will re-segement the image");

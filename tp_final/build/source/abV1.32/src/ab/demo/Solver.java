@@ -4,12 +4,16 @@ import java.util.Random;
 import ab.demo.Teoria;
 import ab.demo.Estado;
 import ab.demo.Chancho;
+import ab.demo.JSON;
 
 public class Solver {
 	private List<Teoria> teorias;
 	
 	public Solver() {
 		this.teorias = new ArrayList<Teoria>();
+	}
+	public void grabar() {
+		JSON.write(this.teorias);
 	}
 
 	//Genera una teoria navie y para un determinado estado.
@@ -36,7 +40,6 @@ public class Solver {
 				chancho_dummie = false;
 			}
 		}
-		System.out.println("RANDOM :"+random);
 		teoria_inicial.setAccion(random);
 		this.agregarTeoria(teoria_inicial);
 	}
@@ -63,14 +66,13 @@ public class Solver {
 		Teoria teoria_elegida = null;
 		while (iTeoria.hasNext()) {
 			teoria = iTeoria.next();
-			System.out.println("TEORIA :  ACCION:"+ teoria.getAccion() + " EXITOS:"+teoria.getExitos());
 			if (teoria.getEstado().Igual(estado)) {
 				if (teoria.mejorQue(teoria_elegida)) {
 					teoria_elegida = teoria;
 				}
 			}
 		}
-		System.out.println("TEORIA ELEGIDA:"+teoria_elegida.getAccion());
+		System.out.println("TEORIA :  ACCION:"+ teoria_elegida.getAccion() + " EXITOS:"+teoria_elegida.getExitos() +" USOS:"+teoria_elegida.getUsos());
 		return teoria_elegida;
 	}
 }

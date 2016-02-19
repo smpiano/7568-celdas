@@ -1,5 +1,5 @@
 package ab.demo;
-
+import ab.vision.ABType;
 import ab.demo.Estado;
 
 public class Teoria {
@@ -46,7 +46,7 @@ public class Teoria {
 		if (teoria == null) {
 			return true;
 		}
-		if ((teoria.getCantidadInicial()-teoria.getCantidadFinal())*(teoria.getExitos()/teoria.getUsos()) < (this.getCantidadInicial()-this.cantidad_final) * (this.exitos/this.usos)) {
+		if (teoria.getRate() < this.getRate()) {
 			return true;
 		}
 		return false;
@@ -58,6 +58,10 @@ public class Teoria {
 		} else {
 			return false;
 		}
+	}
+	
+	public double getRate() {
+		return (this.getCantidadInicial()-this.cantidad_final) * (this.exitos/this.usos);
 	}
 
 	public int getCantidadFinal() {
@@ -74,6 +78,9 @@ public class Teoria {
 
 	public int getUsos() {
 		return this.usos;
+	}
+	public ABType getBird() {
+		return this.estado_inicial.getBird();
 	}
 }
 
