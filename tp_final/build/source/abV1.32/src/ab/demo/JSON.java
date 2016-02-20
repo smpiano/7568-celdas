@@ -92,40 +92,49 @@ public class JSON {
 			}
 	}
 
-//	public static List<Teoria> read(){
+	public static List<Teoria> read(){
 
-//		JSONParser parser = new JSONParser();
+		JSONParser parser = new JSONParser();
+		List<Teoria> teorias = new ArrayList<Teoria>();
 
-//		try {
-//	
-//			Object unObjeto = parser.parse(new FileReader("teorias.json"));
-//	
-//			JSONObject unJSONObj = (JSONObject) unObjeto;
-//	
-//			JSONArray listaChanchos = (JSONArray) unJSONObj.get("chanchos");
-//			Iterator<int> iterator = listaChanchos.iterator();
-//			while (iterator.hasNext()) {
-//				//Crear una lista de chanchos
-//				}
-//			//Crear el birdtype
-//			//ABBirdType birdType = (ABBirdType) unJSONObj.get("tipoPajaro");
-//			int cantInicial = (Integer) unJSONObj.get("cantInicial");	
-//			int cantFinal = (Integer) unJSONObj.get("cantFinal");	
-//			int accion = (Integer) unJSONObj.get("accion");
-//			int exitos = (Integer) unJSONObj.get("exitos");	
-//			int usos = (Integer) unJSONObj.get("usos");	
-//			
-//			//
+		try {
+	
+			Object unObjeto = parser.parse(new FileReader("teorias.json"));
+	
+			JSONObject unJSONObj = (JSONObject) unObjeto;
+	
+			JSONArray listaChanchos = (JSONArray) unJSONObj.get("chanchos");
+			List<Chancho> chanchos = new ArrayList<Chancho>();
+			Iterator<JSONObject> iterator = listaChanchos.iterator();
+			while (iterator.hasNext()) {
+				//chanchos.add(new Chancho(0,iterator.next().get()));
+				
+			}
+			Collections.sort(chanchos);
+			//Crear el birdtype
+			int birdType = (Integer) unJSONObj.get("tipoPajaro");
+			int cantInicial = (Integer) unJSONObj.get("cantInicial");	
+			int cantFinal = (Integer) unJSONObj.get("cantFinal");	
+			int accion = (Integer) unJSONObj.get("accion");
+			int exitos = (Integer) unJSONObj.get("exitos");	
+			int usos = (Integer) unJSONObj.get("usos");	
+			Estado estado = new Estado(chanchos,cantInicial, JSON.getABType(birdType));
+			Teoria teoria = new Teoria(estado);
+			teoria.setAccion(accion);
+			teoria.setUsos(usos);
+			teoria.setExitos(exitos);
+			teoria.setCantidadFinal(cantFinal);
+			
 
-//	
-//			} catch (FileNotFoundException e2) {
-//				e2.printStackTrace();
-//			} catch (IOException e3) {
-//				e3.printStackTrace();
-//			} catch (ParseException e4) {
-//				e4.printStackTrace();
-//			}
-//		
-
-//	} 
+	
+			} catch (FileNotFoundException e2) {
+				e2.printStackTrace();
+			} catch (IOException e3) {
+				e3.printStackTrace();
+			} catch (ParseException e4) {
+				e4.printStackTrace();
+			}
+		
+		return teorias;
+	} 
 }

@@ -1,6 +1,7 @@
 package ab.demo;
 import ab.demo.Chancho;
 import ab.demo.Sensor;
+import ab.vision.ABType;
 import java.util.*;
 
 
@@ -14,6 +15,11 @@ public class Estado {
 		this.chanchos = sensor.getChanchos();
 		this.cantidad_inicial = sensor.getCantidad();
 		this.birdType = sensor.getBird();
+	}
+	public Estado(List<Chancho> chanchos, int cantidad_inicial, ABType birdType) {
+		this.chanchos = chanchos;
+		this.cantidad_inicial = cantidad_inicial;
+		this.birdType = birdType;
 	}
 
 	//Comparar si los estados iniciales son iguales

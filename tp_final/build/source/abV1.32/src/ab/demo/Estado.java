@@ -16,6 +16,11 @@ public class Estado {
 		this.cantidad_inicial = sensor.getCantidad();
 		this.birdType = sensor.getBird();
 	}
+	public Estado(List<Chancho> chanchos, int cantidad_inicial, ABType birdType) {
+		this.chanchos = chanchos;
+		this.cantidad_inicial = cantidad_inicial;
+		this.birdType = birdType;
+	}
 
 	//Comparar si los estados iniciales son iguales
 	public boolean Igual(Estado estado) {

@@ -237,8 +237,9 @@ public class ClientNaiveAgent implements Runnable {
 				//Obtener Mejor teoria para el estado inicial
 				Teoria teoria = solver.getTeoria(estado_inicial);
 				//Se aplican las acciones de esa teoria
-				System.out.println("ACCION :"+teoria.getAccion());
-				ABObject pig = pigs.get(teoria.getAccion());
+				int chanchoApuntado  = estado_inicial.getChanchos().get(teoria.getAccion()).getPos();
+				System.out.println("CHANCHO APUNTADO :"+ chanchoApuntado);
+				ABObject pig = pigs.get(chanchoApuntado);
 				//Comenzar a apuntar con el chancho elegido
 				Point _tpt = pig.getCenter();
 	//------------------------------------------------------------------------------//
