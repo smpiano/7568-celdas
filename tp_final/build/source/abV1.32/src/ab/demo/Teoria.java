@@ -61,7 +61,8 @@ public class Teoria {
 	}
 	
 	public double getRate() {
-		return (this.getCantidadInicial()-this.cantidad_final) * (this.exitos/this.usos);
+		double rate =  (this.getCantidadInicial()-this.cantidad_final) * (this.exitos * 1.0/this.usos);
+		return rate;
 	}
 
 	public int getCantidadFinal() {
