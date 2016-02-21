@@ -105,10 +105,12 @@ public class JSON {
 	
 			JSONArray listaChanchos = (JSONArray) unJSONObj.get("chanchos");
 			List<Chancho> chanchos = new ArrayList<Chancho>();
-			Iterator<JSONObject> iterator = listaChanchos.iterator();
-			while (iterator.hasNext()) {
-				//chanchos.add(new Chancho(0,iterator.next().get()));
-				
+			int value=0;
+			for (int i=0; i < Estado.limite; i++){
+				value = (Integer) (listaChanchos.get(i));
+				///TODO COMPROBAR QUE ESTA LEYENDO BIEN
+				System.out.println("ESTE ES EL VALUE QUE DA:"+value);
+				chanchos.add(new Chancho(0,value));
 			}
 			Collections.sort(chanchos);
 			//Crear el birdtype
