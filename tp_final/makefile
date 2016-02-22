@@ -2,8 +2,16 @@
 
 GAMEPLAY="lib/gameplay/abV1.32.zip"
 APPCACHE="lib/appcache/Application_Cache.zip"
-LOCALAPPCACHE_NEW="/home/pato/.config/google-chrome/Default/"
-LOCALAPPCACHE_OLD="/home/pato/.config/google-chrome/Default/Original"
+OS=$$(uname)
+ifeq ($$OS, Linux)
+	LOCALAPPCACHE_NEW="/home/$$USER/.config/google-chrome/Default";
+	LOCALAPPCACHE_OLD="/home/$$USER/.config/google-chrome/Default_Original"
+	NAV=sensible-browser
+else
+	LOCALAPPCACHE_NEW="/Users/$$USER/Library/Application\ Support/Google/Chrome/Default/Application\ Cache";
+	LOCALAPPCACHE_OLD="/Users/$$USER/Library/Application\ Support/Google/Chrome/Default/Application\ Cache\ Original"
+	NAV=open
+endif
 
 build: truco
 
@@ -37,7 +45,7 @@ browse-close:
 	-pkill -9 Chrome
 
 browse-open:
-	-open http://chrome.angrybirds.com
+	-$(NAV) http://chrome.angrybirds.com
 
 server-start: build
 	java -jar build/source/abV1.32/ABServer.jar &
