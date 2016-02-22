@@ -17,6 +17,7 @@ import ab.demo.Estado;
 import java.util.*;
 
 
+
 public class JSON {
 	//	RedBird(4), 
 	//	YellowBird(5), 
@@ -69,18 +70,17 @@ public class JSON {
 
 				JSONObject unJSONObj = new JSONObject();
 
-				JSONArray listaChanchos = new JSONArray();
+				int i =0;
 				for (Chancho unChancho : unaTeoria.getEstado().getChanchos()){
-					listaChanchos.add(unChancho.getValue());
+					unJSONObj.put("chancho "+i,unChancho.getValue());
+					i++;
 				}
-
 				unJSONObj.put("tipoPajaro", JSON.getID(unaTeoria.getBird()));
 				unJSONObj.put("cantInicial", unaTeoria.getCantidadInicial());
 				unJSONObj.put("cantFinal", unaTeoria.getCantidadFinal());
 				unJSONObj.put("accion", unaTeoria.getAccion());
 				unJSONObj.put("exitos", unaTeoria.getExitos());
 				unJSONObj.put("usos", unaTeoria.getUsos());
-				unJSONObj.put("chanchos", listaChanchos);
 
 				//agregar jsonobject al jsonarray
 				jsonArrayTeorias.add(unJSONObj);
@@ -101,45 +101,36 @@ public class JSON {
 	}
 
 	public static List<Teoria> read(){
-
 		JSONParser parser = new JSONParser();
 		List<Teoria> teorias = new ArrayList<Teoria>();
-
 		try {
-	
 			Object unObjeto = parser.parse(new FileReader("teorias.json"));
-	
 			JSONObject mainJSONObj = (JSONObject) unObjeto;
 			JSONArray teoriasJSON = (JSONArray) mainJSONObj.get("teorias");
-
 			for (int i = 0, size = teoriasJSON.size(); i < size; i++){
-
 				JSONObject unaTeoria = (JSONObject) teoriasJSON.get(i); //No estoy seguro de esta linea. O es .get(i) o .getJSONObject(i)
-
-				JSONArray listaChanchos = (JSONArray) unaTeoria.get("chanchos");
 				List<Chancho> chanchos = new ArrayList<Chancho>();
-				int value=0;
-				for (int j=0; j < Estado.limite; j++){
-					value = (Integer) (listaChanchos.get(j));
-					///TODO COMPROBAR QUE ESTA LEYENDO BIEN
-					System.out.println("ESTE ES EL VALUE QUE DA: "+value);
-					chanchos.add(new Chancho(0,value));
-				}
-				Collections.sort(chanchos);
+							
 			
 				//Crear el birdtype
-				int birdType = (Integer) unaTeoria.get("tipoPajaro");
-				int cantInicial = (Integer) unaTeoria.get("cantInicial");	
-				int cantFinal = (Integer) unaTeoria.get("cantFinal");	
-				int accion = (Integer) unaTeoria.get("accion");
-				int exitos = (Integer) unaTeoria.get("exitos");	
-				int usos = (Integer) unaTeoria.get("usos");	
-				Estado estado = new Estado(chanchos,cantInicial, JSON.getABType(birdType));
+				long birdType = (Long) unaTeoria.get("tipoPajaro");
+				long cantInicial = (Long) unaTeoria.get("cantInicial");	
+				long cantFinal = (Long) unaTeoria.get("cantFinal");
+				long accion = (Long) unaTeoria.get("accion");
+				long exitos = (Long) unaTeoria.get("exitos");	
+				long usos = (Long) unaTeoria.get("usos");
+				Long value;		
+				for (int j=0; j < Estado.limite; j++){
+					value = (Long) (unaTeoria.get("chancho "+ j));					
+					chanchos.add(new Chancho(0,(int) (long) value));
+				}
+				Collections.sort(chanchos);
+				Estado estado = new Estado(chanchos,(int)cantInicial, JSON.getABType((int)birdType));
 				Teoria teoria = new Teoria(estado);
-				teoria.setAccion(accion);
-				teoria.setUsos(usos);
-				teoria.setExitos(exitos);
-				teoria.setCantidadFinal(cantFinal);
+				teoria.setAccion((int)accion);
+				teoria.setUsos((int)usos);
+				teoria.setExitos((int)exitos);
+				teoria.setCantidadFinal((int)cantFinal);
 
 				teorias.add(teoria);
 			}	

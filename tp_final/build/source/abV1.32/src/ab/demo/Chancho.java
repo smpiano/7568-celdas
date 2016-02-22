@@ -3,7 +3,7 @@ package ab.demo;
 public class Chancho implements Comparable {
 	private int pos;
 	private int value;
-	public static int dummie = 99999999;
+	public static int dummie = 9999;
 	
 	public Chancho(int pos, int value) {
 		this.pos = pos;

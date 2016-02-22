@@ -10,7 +10,7 @@ public class Solver {
 	private List<Teoria> teorias;
 	
 	public Solver() {
-		this.teorias = new ArrayList<Teoria>();
+		this.teorias = JSON.read();
 	}
 	public void grabar() {
 		JSON.write(this.teorias);
