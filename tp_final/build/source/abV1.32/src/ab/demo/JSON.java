@@ -61,7 +61,8 @@ public class JSON {
 	}
 	public static void write(List<Teoria> teorias){
 		try {
-			FileWriter file = new FileWriter("teorias.json");
+
+			JSONArray jsonArrayTeorias = new JSONArray();
 
 			for (Teoria unaTeoria : teorias) {
 			
@@ -81,11 +82,18 @@ public class JSON {
 				unJSONObj.put("usos", unaTeoria.getUsos());
 				unJSONObj.put("chanchos", listaChanchos);
 
+				//agregar jsonobject al jsonarray
+				jsonArrayTeorias.add(unJSONObj);
 			
-				file.write(unJSONObj.toJSONString());
-				}
-				file.flush();
-				file.close();
+			}
+
+			JSONObject mainJSONObj = new JSONObject();
+			mainJSONObj.put("teorias",jsonArrayTeorias);
+			//escribir en el archivo el json array
+			FileWriter file = new FileWriter("teorias.json");
+			file.write(mainJSONObj.toJSONString());
+			file.flush();
+			file.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 				
@@ -101,32 +109,40 @@ public class JSON {
 	
 			Object unObjeto = parser.parse(new FileReader("teorias.json"));
 	
-			JSONObject unJSONObj = (JSONObject) unObjeto;
-	
-			JSONArray listaChanchos = (JSONArray) unJSONObj.get("chanchos");
-			List<Chancho> chanchos = new ArrayList<Chancho>();
-			int value=0;
-			for (int i=0; i < Estado.limite; i++){
-				value = (Integer) (listaChanchos.get(i));
-				///TODO COMPROBAR QUE ESTA LEYENDO BIEN
-				System.out.println("ESTE ES EL VALUE QUE DA:"+value);
-				chanchos.add(new Chancho(0,value));
-			}
-			Collections.sort(chanchos);
-			//Crear el birdtype
-			int birdType = (Integer) unJSONObj.get("tipoPajaro");
-			int cantInicial = (Integer) unJSONObj.get("cantInicial");	
-			int cantFinal = (Integer) unJSONObj.get("cantFinal");	
-			int accion = (Integer) unJSONObj.get("accion");
-			int exitos = (Integer) unJSONObj.get("exitos");	
-			int usos = (Integer) unJSONObj.get("usos");	
-			Estado estado = new Estado(chanchos,cantInicial, JSON.getABType(birdType));
-			Teoria teoria = new Teoria(estado);
-			teoria.setAccion(accion);
-			teoria.setUsos(usos);
-			teoria.setExitos(exitos);
-			teoria.setCantidadFinal(cantFinal);
+			JSONObject mainJSONObj = (JSONObject) unObjeto;
+			JSONArray teoriasJSON = (JSONArray) mainJSONObj.get("teorias");
+
+			for (int i = 0, size = teoriasJSON.size(); i < size; i++){
+
+				JSONObject unaTeoria = (JSONObject) teoriasJSON.get(i); //No estoy seguro de esta linea. O es .get(i) o .getJSONObject(i)
+
+				JSONArray listaChanchos = (JSONArray) unaTeoria.get("chanchos");
+				List<Chancho> chanchos = new ArrayList<Chancho>();
+				int value=0;
+				for (int j=0; j < Estado.limite; j++){
+					value = (Integer) (listaChanchos.get(j));
+					///TODO COMPROBAR QUE ESTA LEYENDO BIEN
+					System.out.println("ESTE ES EL VALUE QUE DA: "+value);
+					chanchos.add(new Chancho(0,value));
+				}
+				Collections.sort(chanchos);
 			
+				//Crear el birdtype
+				int birdType = (Integer) unaTeoria.get("tipoPajaro");
+				int cantInicial = (Integer) unaTeoria.get("cantInicial");	
+				int cantFinal = (Integer) unaTeoria.get("cantFinal");	
+				int accion = (Integer) unaTeoria.get("accion");
+				int exitos = (Integer) unaTeoria.get("exitos");	
+				int usos = (Integer) unaTeoria.get("usos");	
+				Estado estado = new Estado(chanchos,cantInicial, JSON.getABType(birdType));
+				Teoria teoria = new Teoria(estado);
+				teoria.setAccion(accion);
+				teoria.setUsos(usos);
+				teoria.setExitos(exitos);
+				teoria.setCantidadFinal(cantFinal);
+
+				teorias.add(teoria);
+			}	
 
 	
 			} catch (FileNotFoundException e2) {
