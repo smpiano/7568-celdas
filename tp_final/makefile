@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 .PHONY: build compile clean run
 
 GAMEPLAY="lib/gameplay/abV1.32.zip"
@@ -7,10 +8,14 @@ ifeq ($(shell uname),Darwin)
 	LOCALAPPCACHE_OLD="/Users/$$USER/Library/Application\ Support/Google/Chrome/Default/Application\ Cache\ Original"
 	NAV=open
 else
-	LOCALAPPCACHE_NEW="/home/$$USER/.config/google-chrome/Profile\ 1"
-	LOCALAPPCACHE_OLD="/home/$$USER/.config/google-chrome/Profile\ 1_Original"
+	LOCALAPPCACHE_NEW="/home/$$USER/.config/google-chrome/Default/Application\ Cache"
+	LOCALAPPCACHE_OLD="/home/$$USER/.config/google-chrome/Default/Application\ Cache_Original"
 	NAV=sensible-browser
 endif
+
+test:
+	-echo $(LOCALAPPCACHE_NEW)
+	-echo $(LOCALAPPCACHE_OLD)
 
 build: truco
 
@@ -42,9 +47,10 @@ prompt:
 
 browse-close:
 	-pkill -9 Chrome
+	-pkill -9 chrome
 
 browse-open:
-	-$(NAV) http://chrome.angrybirds.com
+	-$(NAV) http://chrome.angrybirds.com 2>/dev/null &
 
 server-start: build
 	java -jar build/source/abV1.32/ABServer.jar &
@@ -68,5 +74,5 @@ truco: unzip-libs save-appcache
 	cp -R 'build/source/Application Cache' "$(LOCALAPPCACHE_NEW)"
 
 compile: build
-	cp -R src/ 'build/source/abV1.32/src/'
+	cp -R src/* 'build/source/abV1.32/src/'
 	cd 'build/source/abV1.32/'; ant compile; error=`echo $$?`; [[ "error" -gt 0 ]] && exit $$error; ant jar; error=`echo $$?`; [[ "error" -gt 0 ]] && exit $$error; cd '../../../'
