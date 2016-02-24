@@ -1,5 +1,6 @@
 package ab.demo;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,6 +20,7 @@ import java.util.*;
 
 
 public class JSON {
+	private static final String FILE_NAME = "teorias.json";
 	//	RedBird(4), 
 	//	YellowBird(5), 
 	//	BlueBird(6), 
@@ -90,7 +92,7 @@ public class JSON {
 			JSONObject mainJSONObj = new JSONObject();
 			mainJSONObj.put("teorias",jsonArrayTeorias);
 			//escribir en el archivo el json array
-			FileWriter file = new FileWriter("teorias.json");
+			FileWriter file = new FileWriter(FILE_NAME);
 			file.write(mainJSONObj.toJSONString());
 			file.flush();
 			file.close();
@@ -104,7 +106,9 @@ public class JSON {
 		JSONParser parser = new JSONParser();
 		List<Teoria> teorias = new ArrayList<Teoria>();
 		try {
-			Object unObjeto = parser.parse(new FileReader("teorias.json"));
+			File teo = new File(FILE_NAME);
+			if (teo.exists()) System.out.println("===> Se reconoce el archivo de teorias <" + teo.getAbsolutePath() + ">");
+			Object unObjeto = parser.parse(new FileReader(FILE_NAME));
 			JSONObject mainJSONObj = (JSONObject) unObjeto;
 			JSONArray teoriasJSON = (JSONArray) mainJSONObj.get("teorias");
 			for (int i = 0, size = teoriasJSON.size(); i < size; i++){
